@@ -8,8 +8,27 @@
     <title>Home</title>
 </head>
 <body>
+
+<form th:object="${newMessage}" th:action="@{'/home'}" action="#" method="post">
+    <input th:field="*{text}" type="text">
+    <input type="submit">
+</form>
+
+
 <h1 th:text="${welcomeMessage}">Hello, stranger, welcome to Charles' homepage!</h1>
 <h1 th:text="${timestampMessage}">time</h1>
+
+<h1 th:each="msg : ${messageList}"
+    th:text="${msg}"
+    th:unless="${msg.contains('List')}"
+>message list </h1>
+
+
+<form action="#" th:action="@{'/simplehome'}" method="post">
+    <input type="submit" value="Visit me">
+</form>
+<h1 th:if="${firstVisit}">Hello, homepage!</h1>
+<h1 th:unless="${firstVisit}">Welcome back!</h1>
 
 </body>
 </html>
