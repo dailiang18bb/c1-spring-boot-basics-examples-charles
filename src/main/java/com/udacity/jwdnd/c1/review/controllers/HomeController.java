@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.c1.review.controllers;
 
 
+import com.udacity.jwdnd.c1.review.domain.AnimalMessageForm;
 import com.udacity.jwdnd.c1.review.domain.MessageForm;
 import com.udacity.jwdnd.c1.review.services.MessageListService;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class HomeController {
 
 
     @GetMapping(value = {"/home", "/", ""})
-    public String getHomePage(@ModelAttribute("newMessage") MessageForm newMessage, Model model){
+    public String getHomePage(@ModelAttribute("animalMessage") AnimalMessageForm animalMessageForm, @ModelAttribute("newMessage") MessageForm newMessage, Model model){
         model.addAttribute("welcomeMessage", "Hi there, this message comes from model object");
         model.addAttribute("timestampMessage", Instant.now());
 //        model.addAttribute("messageList", Arrays.asList("This", "is", "a", "List", "of", "String"));
@@ -35,6 +36,16 @@ public class HomeController {
         messageListService.addMessages(messageForm.getText());
         model.addAttribute("messageList", messageListService.getMessages());
         messageForm.setText("");
+        return "home";
+    }
+
+    @PostMapping(value = "/animal")
+    public String handleFormAninalMessage(@ModelAttribute("animalMessage") AnimalMessageForm animalMessageForm, Model model){
+        messageListService.addMessages(animalMessageForm.getAdjective());
+        messageListService.addMessages(animalMessageForm.getAnimalText());
+        model.addAttribute("animalMessageList", messageListService.getMessages());
+        animalMessageForm.setAdjective("");
+        animalMessageForm.setAnimalText("");
         return "home";
     }
 
